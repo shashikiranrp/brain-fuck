@@ -45,12 +45,11 @@ void BrainFuck::Interpreter::interact(std::istream& token_stream)
         break;
 
       case ',':
-        if (std::cin.eof()) {
-          return;
+        if (!std::cin.eof()) {
+          unsigned char chr;
+          std::cin >> chr;
+          this->rt_heap.store(this->heap_pos, chr);
         }
-        unsigned char chr;
-        std::cin >> chr;
-        this->rt_heap.store(this->heap_pos, chr);
         break;
 
       case '[':
