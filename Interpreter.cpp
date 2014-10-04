@@ -6,9 +6,8 @@
 void BrainFuck::Interpreter::interact(std::istream& token_stream) 
 {
   std::vector<unsigned char> token_buffer{};
-  while ((token_stream.good())) {
-    unsigned char chr;
-    token_stream >> chr;
+  while (token_stream.good()) {
+    unsigned char chr = (unsigned char) token_stream.get();
     if (chr == '<' || chr == '>' || 
         chr == '.' || chr == ',' ||
         chr == '[' || chr == ']' ||
@@ -41,14 +40,12 @@ void BrainFuck::Interpreter::interact(std::istream& token_stream)
         break;
 
       case '.':
-        std::cout << this->rt_heap.read(this->heap_pos);
+        std::cout.put((char) this->rt_heap.read(this->heap_pos));
         break;
 
       case ',':
-        if (!std::cin.eof()) {
-          unsigned char chr;
-          std::cin >> chr;
-          this->rt_heap.store(this->heap_pos, chr);
+        if (std::cin.good()) {
+          this->rt_heap.store(this->heap_pos, (unsigned char) std::cin.get());
         }
         break;
 
@@ -79,7 +76,6 @@ void BrainFuck::Interpreter::interact(std::istream& token_stream)
 
       default:
         throw std::runtime_error(std::string("invalid token: ") + std::string(1,next_token));
-        break;
     }
     ++token_pos;
   }
